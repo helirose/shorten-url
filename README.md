@@ -1,66 +1,110 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+1. **Created a new Laravel project**:
+    ```bash
+    laravel new shorten-url
+    ```
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# URL Shortener
 
-## About Laravel
+This is a simple URL shortening service built with Laravel. The project allows users to shorten long URLs and decode shortened URLs back to their original form. It includes functionality to handle URL encoding and decoding, along with robust testing to ensure the system works as expected.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Project Overview
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+The goal of this project was to create a basic URL shortening service with the following features:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   A model for storing URLs and their shortened versions.
+-   Routes to handle encoding and decoding URLs.
+-   Controller methods to manage the logic of shortening and retrieving URLs.
+-   Automated tests to ensure the system works as expected.
 
-## Learning Laravel
+## Steps Taken
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. **Created a new Laravel project**:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+    ```bash
+    laravel new shorten-url
+    ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. **Created a model with a migration for `Urls`**:
 
-## Laravel Sponsors
+    ```bash
+    php artisan make:model -m Url
+    ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3. **Added routes for encoding and decoding** in `routes/web.php`.
 
-### Premium Partners
+4. **Fleshed out the migration file** by adding string columns for `original_url` and `short_code`. The `original_url` is unique to ensure that the same page is not stored with multiple short URLs, saving space.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+5. **Added fillable properties and a function to generate a short code** in the `Url` model.
 
-## Contributing
+6. **Created controller methods** to handle the logic of encoding and decoding.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+7. **Tested controller methods** and ensured they worked correctly.
 
-## Code of Conduct
+8. **Fixed any bugs** that arose during testing.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+9. **Wrote automated tests** for key functionalities.
 
-## Security Vulnerabilities
+10. **Ran tests** and ensured everything was functioning as expected.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Challenges Faced and Solutions
 
-## License
+### Problems Solved:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+-   **Handling URLs with parameters**: URLs with parameters (e.g., `/decode/long-url-here`) were not properly handled when passed as a request parameter.  
+    **Solution**: I fixed this by passing the URL as a query parameter, like `/decode?url=long-url-here`.
+
+-   **Escaped slashes in JSON response**: The `url()` function escaped slashes in the JSON response, which made the output visually unappealing and harder to process.  
+    **Solution**: I resolved this by adding the `JSON_UNESCAPED_SLASHES` option to the JSON response to prevent slashes from being escaped.
+
+### Extra Thoughts:
+
+-   **Redirect on shortened URL access**: The system could return a redirect to the original URL when accessing the shortened version. The need for this would depend on how the API is being consumed.
+-   **Consistent data response**: I've chosen to always return the requested data along with the input data for consistency. This allows API consumers to verify and trust the response, although it might not be strictly necessary.
+-   **Laravel boilerplate**: I did not begin with a starter kit but some base boilerplate remains. I only removed boilerplate Laravel code such as example tests where it was relevant for the purposes of this test.
+
+## How to Run
+
+### Clone the Project
+
+First, clone the repository from GitHub:
+
+```bash
+git clone https://github.com/helirose/shorten-url.git
+cd shorten-url
+```
+
+### Install Dependencies
+
+Next, install the necessary PHP dependencies using Composer:
+
+```bash
+composer install
+```
+
+### Set Up the Database
+
+Run the database migrations to set up the `Urls` table:
+
+```bash
+php artisan migrate
+```
+
+### Run the Application
+
+Start the Laravel development server:
+
+```bash
+php artisan serve
+```
+
+The application will be available at `http://localhost:8000` by default.
+
+### Running Tests
+
+To run the automated tests, use the following command:
+
+```bash
+php artisan test
+```
+
+This will execute the test cases and show you the results in the terminal.
