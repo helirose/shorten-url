@@ -1,20 +1,6 @@
-1. **Created a new Laravel project**:
-    ```bash
-    laravel new shorten-url
-    ```
-
 # URL Shortener
 
 This is a simple URL shortening service built with Laravel. The project allows users to shorten long URLs and decode shortened URLs back to their original form. It includes functionality to handle URL encoding and decoding, along with robust testing to ensure the system works as expected.
-
-## Project Overview
-
-The goal of this project was to create a basic URL shortening service with the following features:
-
--   A model for storing URLs and their shortened versions.
--   Routes to handle encoding and decoding URLs.
--   Controller methods to manage the logic of shortening and retrieving URLs.
--   Automated tests to ensure the system works as expected.
 
 ## Steps Taken
 
